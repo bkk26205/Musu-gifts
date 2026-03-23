@@ -22,7 +22,7 @@ body{
 
 .tabs{
     display:flex;
-    justify-content:space-around;
+    justify-content:center;
     margin:10px;
     background:#111827;
     border-radius:15px;
@@ -30,14 +30,8 @@ body{
 }
 
 .tab{
-    flex:1;
-    text-align:center;
-    padding:8px;
+    padding:8px 20px;
     border-radius:10px;
-    cursor:pointer;
-}
-
-.active{
     background:linear-gradient(90deg,#7c3aed,#ec4899);
 }
 
@@ -81,15 +75,12 @@ body{
 button{
     background:linear-gradient(90deg,#2563eb,#4f46e5);
     border:none;
-    padding:8px;
+    padding:10px;
     border-radius:10px;
     color:white;
     width:100%;
     margin-top:8px;
 }
-
-.hidden{ display:none; }
-
 </style>
 </head>
 
@@ -98,71 +89,33 @@ button{
 <div class="header">🎁 Musu Gift Store</div>
 
 <div class="tabs">
-    <div class="tab active" onclick="showTab('regular', this)">🎁 Regular</div>
-    <div class="tab" onclick="showTab('hidden', this)">🕵️ Hidden</div>
-    <div class="tab" onclick="showTab('sell', this)">⭐ Sell</div>
+    <div class="tab">🔥 All Gifts (Best Price)</div>
 </div>
 
-<!-- REGULAR -->
-<div id="regular" class="container">
+<div class="container">
 
-<div class="card">
-<div class="discount">-13%</div>
-<h3>💝</h3>
-<p>Heart</p>
-<div class="price">13 ⭐</div>
-<div class="old">15 ⭐</div>
-<button onclick="buy('heart',13)">Tap to Buy</button>
-</div>
+<!-- 13⭐ -->
+<div class="card"><div class="discount">-13%</div><h3>💝</h3><p>Heart</p><div class="price">13 ⭐</div><div class="old">15 ⭐</div><button onclick="buy('heart',13)">Tap to Buy</button></div>
 
-<div class="card">
-<div class="discount">-13%</div>
-<h3>🧸</h3>
-<p>Teddy</p>
-<div class="price">13 ⭐</div>
-<div class="old">15 ⭐</div>
-<button onclick="buy('teddy',13)">Tap to Buy</button>
-</div>
+<div class="card"><div class="discount">-13%</div><h3>🧸</h3><p>Teddy</p><div class="price">13 ⭐</div><div class="old">15 ⭐</div><button onclick="buy('teddy',13)">Tap to Buy</button></div>
 
-</div>
+<!-- 22⭐ -->
+<div class="card"><div class="discount">-12%</div><h3>🎁</h3><p>Gift Box</p><div class="price">22 ⭐</div><div class="old">25 ⭐</div><button onclick="buy('box',22)">Tap to Buy</button></div>
 
-<!-- HIDDEN -->
-<div id="hidden" class="container hidden">
+<div class="card"><div class="discount">-12%</div><h3>🌹</h3><p>Rose</p><div class="price">22 ⭐</div><div class="old">25 ⭐</div><button onclick="buy('rose',22)">Tap to Buy</button></div>
 
-<div class="card">
-<div class="discount">-10%</div>
-<h3>🧸</h3>
-<p>New Year Teddy</p>
-<div class="price">45 ⭐</div>
-<div class="old">50 ⭐</div>
-<button onclick="buy('nyteddy',45)">Tap to Buy</button>
-</div>
+<!-- 45⭐ -->
+<div class="card"><h3>🎂</h3><p>Cake</p><div class="price">45 ⭐</div><button onclick="buy('cake',45)">Tap to Buy</button></div>
 
-<div class="card">
-<div class="discount">-10%</div>
-<h3>🎄</h3>
-<p>Christmas Tree</p>
-<div class="price">45 ⭐</div>
-<div class="old">50 ⭐</div>
-<button onclick="buy('tree',45)">Tap to Buy</button>
-</div>
+<div class="card"><h3>💐</h3><p>Flowers</p><div class="price">45 ⭐</div><button onclick="buy('flowers',45)">Tap to Buy</button></div>
 
-<div class="card">
-<div class="discount">-10%</div>
-<h3>🎁</h3>
-<p>Festive Gift Box</p>
-<div class="price">45 ⭐</div>
-<div class="old">50 ⭐</div>
-<button onclick="buy('festbox',45)">Tap to Buy</button>
-</div>
+<div class="card"><h3>🚀</h3><p>Rocket</p><div class="price">45 ⭐</div><button onclick="buy('rocket',45)">Tap to Buy</button></div>
 
-</div>
+<div class="card"><h3>🍾</h3><p>Bottle</p><div class="price">45 ⭐</div><button onclick="buy('bottle',45)">Tap to Buy</button></div>
 
-<!-- SELL -->
-<div id="sell" class="container hidden">
-<div class="card">
-<p>⭐ Sell your Stars (Coming Soon)</p>
-</div>
+<!-- 92⭐ -->
+<div class="card"><h3>💍</h3><p>Ring</p><div class="price">92 ⭐</div><button onclick="buy('ring',92)">Tap to Buy</button></div>
+
 </div>
 
 <script>
@@ -173,14 +126,6 @@ function buy(gift, price){
         gift: gift,
         price: price
     }));
-}
-
-function showTab(tabId, el){
-    document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
-    document.getElementById(tabId).classList.remove('hidden');
-
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
 }
 </script>
 
