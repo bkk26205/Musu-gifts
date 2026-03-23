@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -8,20 +9,36 @@
 body{
     margin:0;
     font-family:sans-serif;
-    background:linear-gradient(180deg,#0f172a,#020617);
+    background:linear-gradient(180deg,#020617,#0f172a);
     color:white;
 }
 
 .header{
-    padding:15px;
     text-align:center;
+    padding:15px;
+    font-size:20px;
+    font-weight:bold;
 }
 
-.badge{
-    background:#22c55e;
-    padding:5px 10px;
+.tabs{
+    display:flex;
+    justify-content:space-around;
+    margin:10px;
+    background:#111827;
+    border-radius:15px;
+    padding:5px;
+}
+
+.tab{
+    flex:1;
+    text-align:center;
+    padding:8px;
     border-radius:10px;
-    font-size:12px;
+    cursor:pointer;
+}
+
+.active{
+    background:linear-gradient(90deg,#7c3aed,#ec4899);
 }
 
 .container{
@@ -37,6 +54,7 @@ body{
     padding:12px;
     text-align:center;
     position:relative;
+    box-shadow:0 0 15px rgba(0,0,0,0.5);
 }
 
 .discount{
@@ -52,7 +70,6 @@ body{
 .price{
     color:#facc15;
     font-size:18px;
-    margin:5px 0;
 }
 
 .old{
@@ -62,7 +79,7 @@ body{
 }
 
 button{
-    background:#1d4ed8;
+    background:linear-gradient(90deg,#2563eb,#4f46e5);
     border:none;
     padding:8px;
     border-radius:10px;
@@ -71,17 +88,23 @@ button{
     margin-top:8px;
 }
 
+.hidden{ display:none; }
+
 </style>
 </head>
 
 <body>
 
-<div class="header">
-<h2>🎁 Musu Gift Store</h2>
-<p class="badge">🔥 UP TO 10% OFF</p>
+<div class="header">🎁 Musu Gift Store</div>
+
+<div class="tabs">
+    <div class="tab active" onclick="showTab('regular', this)">🎁 Regular</div>
+    <div class="tab" onclick="showTab('hidden', this)">🕵️ Hidden</div>
+    <div class="tab" onclick="showTab('sell', this)">⭐ Sell</div>
 </div>
 
-<div class="container">
+<!-- REGULAR -->
+<div id="regular" class="container">
 
 <div class="card">
 <div class="discount">-13%</div>
@@ -101,59 +124,45 @@ button{
 <button onclick="buy('teddy',13)">Tap to Buy</button>
 </div>
 
+</div>
+
+<!-- HIDDEN -->
+<div id="hidden" class="container hidden">
+
 <div class="card">
-<div class="discount">-12%</div>
+<div class="discount">-10%</div>
+<h3>🧸</h3>
+<p>New Year Teddy</p>
+<div class="price">45 ⭐</div>
+<div class="old">50 ⭐</div>
+<button onclick="buy('nyteddy',45)">Tap to Buy</button>
+</div>
+
+<div class="card">
+<div class="discount">-10%</div>
+<h3>🎄</h3>
+<p>Christmas Tree</p>
+<div class="price">45 ⭐</div>
+<div class="old">50 ⭐</div>
+<button onclick="buy('tree',45)">Tap to Buy</button>
+</div>
+
+<div class="card">
+<div class="discount">-10%</div>
 <h3>🎁</h3>
-<p>Gift Box</p>
-<div class="price">22 ⭐</div>
-<div class="old">25 ⭐</div>
-<button onclick="buy('box',22)">Tap to Buy</button>
-</div>
-
-<div class="card">
-<div class="discount">-12%</div>
-<h3>🌹</h3>
-<p>Rose</p>
-<div class="price">22 ⭐</div>
-<div class="old">25 ⭐</div>
-<button onclick="buy('rose',22)">Tap to Buy</button>
-</div>
-
-<div class="card">
-<h3>🎂</h3>
-<p>Cake</p>
+<p>Festive Gift Box</p>
 <div class="price">45 ⭐</div>
-<button onclick="buy('cake',45)">Tap to Buy</button>
+<div class="old">50 ⭐</div>
+<button onclick="buy('festbox',45)">Tap to Buy</button>
 </div>
 
+</div>
+
+<!-- SELL -->
+<div id="sell" class="container hidden">
 <div class="card">
-<h3>💐</h3>
-<p>Flowers</p>
-<div class="price">45 ⭐</div>
-<button onclick="buy('flowers',45)">Tap to Buy</button>
+<p>⭐ Sell your Stars (Coming Soon)</p>
 </div>
-
-<div class="card">
-<h3>🚀</h3>
-<p>Rocket</p>
-<div class="price">45 ⭐</div>
-<button onclick="buy('rocket',45)">Tap to Buy</button>
-</div>
-
-<div class="card">
-<h3>🍾</h3>
-<p>Bottle</p>
-<div class="price">45 ⭐</div>
-<button onclick="buy('bottle',45)">Tap to Buy</button>
-</div>
-
-<div class="card">
-<h3>💍</h3>
-<p>Ring</p>
-<div class="price">92 ⭐</div>
-<button onclick="buy('ring',92)">Tap to Buy</button>
-</div>
-
 </div>
 
 <script>
@@ -164,6 +173,14 @@ function buy(gift, price){
         gift: gift,
         price: price
     }));
+}
+
+function showTab(tabId, el){
+    document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+    document.getElementById(tabId).classList.remove('hidden');
+
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
 }
 </script>
 
