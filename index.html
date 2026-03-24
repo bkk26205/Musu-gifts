@@ -96,43 +96,44 @@ button{
 <div class="container">
 
 <!-- 13⭐ -->
-<div class="card"><div class="discount">-13%</div><h3>💝</h3><p>Heart</p><div class="price">13 ⭐</div><div class="old">15 ⭐</div><button onclick="buy('heart',13,'Heart')">Tap to Buy</button></div>
+<div class="card"><div class="discount">-13%</div><h3>💝</h3><p>Heart</p><div class="price">13 ⭐</div><div class="old">15 ⭐</div><button onclick="buy('heart',13)">Tap to Buy</button></div>
 
-<div class="card"><div class="discount">-13%</div><h3>🧸</h3><p>Teddy</p><div class="price">13 ⭐</div><div class="old">15 ⭐</div><button onclick="buy('teddy',13,'Teddy')">Tap to Buy</button></div>
+<div class="card"><div class="discount">-13%</div><h3>🧸</h3><p>Teddy</p><div class="price">13 ⭐</div><div class="old">15 ⭐</div><button onclick="buy('teddy',13)">Tap to Buy</button></div>
 
 <!-- 22⭐ -->
-<div class="card"><div class="discount">-12%</div><h3>🎁</h3><p>Gift Box</p><div class="price">22 ⭐</div><div class="old">25 ⭐</div><button onclick="buy('box',22,'Gift Box')">Tap to Buy</button></div>
+<div class="card"><div class="discount">-12%</div><h3>🎁</h3><p>Gift Box</p><div class="price">22 ⭐</div><div class="old">25 ⭐</div><button onclick="buy('box',22)">Tap to Buy</button></div>
 
-<div class="card"><div class="discount">-12%</div><h3>🌹</h3><p>Rose</p><div class="price">22 ⭐</div><div class="old">25 ⭐</div><button onclick="buy('rose',22,'Rose')">Tap to Buy</button></div>
+<div class="card"><div class="discount">-12%</div><h3>🌹</h3><p>Rose</p><div class="price">22 ⭐</div><div class="old">25 ⭐</div><button onclick="buy('rose',22)">Tap to Buy</button></div>
 
 <!-- 45⭐ -->
-<div class="card"><h3>🎂</h3><p>Cake</p><div class="price">45 ⭐</div><button onclick="buy('cake',45,'Cake')">Tap to Buy</button></div>
+<div class="card"><h3>🎂</h3><p>Cake</p><div class="price">45 ⭐</div><button onclick="buy('cake',45)">Tap to Buy</button></div>
 
-<div class="card"><h3>💐</h3><p>Flowers</p><div class="price">45 ⭐</div><button onclick="buy('flowers',45,'Flowers')">Tap to Buy</button></div>
+<div class="card"><h3>💐</h3><p>Flowers</p><div class="price">45 ⭐</div><button onclick="buy('flowers',45)">Tap to Buy</button></div>
 
-<div class="card"><h3>🚀</h3><p>Rocket</p><div class="price">45 ⭐</div><button onclick="buy('rocket',45,'Rocket')">Tap to Buy</button></div>
+<div class="card"><h3>🚀</h3><p>Rocket</p><div class="price">45 ⭐</div><button onclick="buy('rocket',45)">Tap to Buy</button></div>
 
-<div class="card"><h3>🍾</h3><p>Bottle</p><div class="price">45 ⭐</div><button onclick="buy('bottle',45,'Bottle')">Tap to Buy</button></div>
+<div class="card"><h3>🍾</h3><p>Bottle</p><div class="price">45 ⭐</div><button onclick="buy('bottle',45)">Tap to Buy</button></div>
 
 <!-- 92⭐ -->
-<div class="card"><h3>💍</h3><p>Ring</p><div class="price">92 ⭐</div><button onclick="buy('ring',92,'Ring')">Tap to Buy</button></div>
+<div class="card"><h3>💍</h3><p>Ring</p><div class="price">92 ⭐</div><button onclick="buy('ring',92)">Tap to Buy</button></div>
 
 </div>
 
 <script>
 let tg = window.Telegram.WebApp;
+tg.expand();
+tg.ready();
 
-function buy(gift, price, name){
-    // Send data to bot - bot will send Stars invoice
+function buy(gift, price){
+    // Send data to bot - bot will send Stars invoice with pay button
     tg.sendData(JSON.stringify({
         gift: gift,
-        price: price,
-        name: name
+        price: price
     }));
     
-    // Optional: haptic feedback
+    // Haptic feedback
     if (tg.HapticFeedback) {
-        tg.HapticFeedback.notificationOccurred('success');
+        tg.HapticFeedback.impactOccurred('light');
     }
 }
 </script>
