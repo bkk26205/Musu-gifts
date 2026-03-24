@@ -1,426 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Musu Gift Store ✨</title>
-    <!-- Telegram WebApp SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-        body {
-            background: linear-gradient(145deg, #0a0f1e 0%, #030617 100%);
-            font-family: 'Segoe UI', system-ui, -apple-system, 'Inter', sans-serif;
-            padding: 0 12px 32px 12px;
-            color: #f1f5f9;
-        }
+<style>
+body{
+    margin:0;
+    font-family:sans-serif;
+    background:linear-gradient(180deg,#020617,#0f172a);
+    color:white;
+}
 
-        /* smooth scroll & modern look */
-        .header {
-            text-align: center;
-            padding: 20px 12px 8px;
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-            background: linear-gradient(135deg, #FFD89A, #FFB347);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .header span {
-            font-size: 32px;
-        }
+.header{
+    text-align:center;
+    padding:15px;
+    font-size:20px;
+    font-weight:bold;
+}
 
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin: 16px 0 20px;
-        }
-        .tab-active {
-            background: linear-gradient(95deg, #8b5cf6, #ec489a);
-            padding: 10px 28px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 16px;
-            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
-            backdrop-filter: blur(2px);
-            letter-spacing: 0.5px;
-        }
+.tabs{
+    display:flex;
+    justify-content:center;
+    margin:10px;
+    background:#111827;
+    border-radius:15px;
+    padding:5px;
+}
 
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
-            gap: 16px;
-            margin-top: 8px;
-        }
+.tab{
+    padding:8px 20px;
+    border-radius:10px;
+    background:linear-gradient(90deg,#7c3aed,#ec4899);
+}
 
-        .card {
-            background: rgba(17, 24, 39, 0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 28px;
-            padding: 18px 12px 14px;
-            text-align: center;
-            position: relative;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.5);
-        }
-        .card:active {
-            transform: scale(0.97);
-        }
+.container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    padding:12px;
+}
 
-        .discount {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #f97316;
-            color: white;
-            font-weight: bold;
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 40px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            letter-spacing: 0.3px;
-        }
+.card{
+    background:#111827;
+    border-radius:15px;
+    padding:12px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 0 15px rgba(0,0,0,0.5);
+}
 
-        .emoji {
-            font-size: 48px;
-            margin: 8px 0 4px;
-            display: inline-block;
-            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
-        }
+.discount{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#f97316;
+    padding:4px 8px;
+    border-radius:10px;
+    font-size:12px;
+}
 
-        .gift-name {
-            font-weight: 600;
-            font-size: 18px;
-            margin: 8px 0 6px;
-            background: linear-gradient(120deg, #e2e8f0, #cbd5e1);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+.price{
+    color:#facc15;
+    font-size:18px;
+}
 
-        .price {
-            font-weight: 800;
-            font-size: 22px;
-            color: #FCD34D;
-            letter-spacing: 0.5px;
-            margin: 6px 0 2px;
-        }
+.old{
+    text-decoration:line-through;
+    color:#64748b;
+    font-size:12px;
+}
 
-        .old {
-            text-decoration: line-through;
-            color: #6c757d;
-            font-size: 12px;
-            margin-left: 6px;
-        }
-
-        button {
-            background: linear-gradient(105deg, #3b82f6, #6366f1);
-            border: none;
-            padding: 10px 0;
-            border-radius: 44px;
-            color: white;
-            font-weight: 700;
-            font-size: 15px;
-            width: 100%;
-            margin-top: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 12px rgba(59,130,246,0.3);
-        }
-        button:active {
-            transform: scale(0.96);
-            background: linear-gradient(105deg, #2563eb, #4f46e5);
-        }
-
-        /* toast / loading */
-        .toast-msg {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) scale(0.9);
-            background: #1e293bdd;
-            backdrop-filter: blur(12px);
-            color: white;
-            padding: 10px 24px;
-            border-radius: 60px;
-            font-weight: 500;
-            font-size: 14px;
-            opacity: 0;
-            transition: 0.2s;
-            pointer-events: none;
-            z-index: 200;
-            border: 1px solid #facc1555;
-            box-shadow: 0 8px 20px black;
-        }
-
-        .loading-spinner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 300;
-            visibility: hidden;
-            flex-direction: column;
-            gap: 12px;
-            font-weight: 600;
-        }
-        .spinner {
-            width: 44px;
-            height: 44px;
-            border: 4px solid rgba(255,255,255,0.2);
-            border-top: 4px solid #facc15;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+button{
+    background:linear-gradient(90deg,#2563eb,#4f46e5);
+    border:none;
+    padding:10px;
+    border-radius:10px;
+    color:white;
+    width:100%;
+    margin-top:8px;
+    cursor:pointer;
+}
+</style>
 </head>
+
 <body>
 
-<div class="header">
-    <span>🎁</span> MUSU GIFT STORE <span>✨</span>
-</div>
+<div class="header">🎁 Musu Gift Store</div>
 
 <div class="tabs">
-    <div class="tab-active">🔥 ALL GIFTS • BEST PRICE 🔥</div>
+    <div class="tab">🔥 All Gifts (Best Price)</div>
 </div>
 
 <div class="container">
-    <!-- 13⭐ Cards (with discount) -->
-    <div class="card" data-gift="heart" data-price="13">
-        <div class="discount">-13%</div>
-        <div class="emoji">💝</div>
-        <div class="gift-name">Heart</div>
-        <div class="price">13 ⭐</div>
-        <div class="old">15 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
 
-    <div class="card" data-gift="teddy" data-price="13">
-        <div class="discount">-13%</div>
-        <div class="emoji">🧸</div>
-        <div class="gift-name">Teddy Bear</div>
-        <div class="price">13 ⭐</div>
-        <div class="old">15 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
+<!-- 13⭐ -->
+<div class="card"><div class="discount">-13%</div><h3>💝</h3><p>Heart</p><div class="price">13 ⭐</div><div class="old">15 ⭐</div><button onclick="buy('heart',13,'Heart')">Tap to Buy</button></div>
 
-    <!-- 22⭐ -->
-    <div class="card" data-gift="giftbox" data-price="22">
-        <div class="discount">-12%</div>
-        <div class="emoji">🎁</div>
-        <div class="gift-name">Gift Box</div>
-        <div class="price">22 ⭐</div>
-        <div class="old">25 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
+<div class="card"><div class="discount">-13%</div><h3>🧸</h3><p>Teddy</p><div class="price">13 ⭐</div><div class="old">15 ⭐</div><button onclick="buy('teddy',13,'Teddy')">Tap to Buy</button></div>
 
-    <div class="card" data-gift="rose" data-price="22">
-        <div class="discount">-12%</div>
-        <div class="emoji">🌹</div>
-        <div class="gift-name">Rose</div>
-        <div class="price">22 ⭐</div>
-        <div class="old">25 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
+<!-- 22⭐ -->
+<div class="card"><div class="discount">-12%</div><h3>🎁</h3><p>Gift Box</p><div class="price">22 ⭐</div><div class="old">25 ⭐</div><button onclick="buy('box',22,'Gift Box')">Tap to Buy</button></div>
 
-    <!-- 45⭐ -->
-    <div class="card" data-gift="cake" data-price="45">
-        <div class="emoji">🎂</div>
-        <div class="gift-name">Cake</div>
-        <div class="price">45 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
+<div class="card"><div class="discount">-12%</div><h3>🌹</h3><p>Rose</p><div class="price">22 ⭐</div><div class="old">25 ⭐</div><button onclick="buy('rose',22,'Rose')">Tap to Buy</button></div>
 
-    <div class="card" data-gift="flowers" data-price="45">
-        <div class="emoji">💐</div>
-        <div class="gift-name">Flower</div>
-        <div class="price">45 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
+<!-- 45⭐ -->
+<div class="card"><h3>🎂</h3><p>Cake</p><div class="price">45 ⭐</div><button onclick="buy('cake',45,'Cake')">Tap to Buy</button></div>
 
-    <div class="card" data-gift="rocket" data-price="45">
-        <div class="emoji">🚀</div>
-        <div class="gift-name">Rocket</div>
-        <div class="price">45 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
+<div class="card"><h3>💐</h3><p>Flowers</p><div class="price">45 ⭐</div><button onclick="buy('flowers',45,'Flowers')">Tap to Buy</button></div>
 
-    <div class="card" data-gift="bottle" data-price="45">
-        <div class="emoji">🍾</div>
-        <div class="gift-name">Bottle</div>
-        <div class="price">45 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
+<div class="card"><h3>🚀</h3><p>Rocket</p><div class="price">45 ⭐</div><button onclick="buy('rocket',45,'Rocket')">Tap to Buy</button></div>
 
-    <!-- 92⭐ -->
-    <div class="card" data-gift="ring" data-price="92">
-        <div class="emoji">💍</div>
-        <div class="gift-name">Ring</div>
-        <div class="price">92 ⭐</div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
-</div>
+<div class="card"><h3>🍾</h3><p>Bottle</p><div class="price">45 ⭐</div><button onclick="buy('bottle',45,'Bottle')">Tap to Buy</button></div>
 
-<!-- Toast & Loading overlay -->
-<div id="toastMessage" class="toast-msg">✨ Added to checkout</div>
-<div id="loadingOverlay" class="loading-spinner">
-    <div class="spinner"></div>
-    <div style="color:white;">Processing secure payment...</div>
+<!-- 92⭐ -->
+<div class="card"><h3>💍</h3><p>Ring</p><div class="price">92 ⭐</div><button onclick="buy('ring',92,'Ring')">Tap to Buy</button></div>
+
 </div>
 
 <script>
-    (function() {
-        // ======================= TELEGRAM INIT =======================
-        let tg = window.Telegram.WebApp;
-        tg.expand();          // fullscreen mini app
-        tg.enableClosingConfirmation();  // ask before close (nice UX)
-        tg.ready();           // tell Telegram we are ready
+let tg = window.Telegram.WebApp;
 
-        // Elements
-        const toastEl = document.getElementById('toastMessage');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-
-        // Show toast message (short feedback)
-        function showToast(text, duration = 1800) {
-            toastEl.innerText = text;
-            toastEl.style.opacity = '1';
-            toastEl.style.transform = 'translateX(-50%) scale(1)';
-            setTimeout(() => {
-                toastEl.style.opacity = '0';
-                toastEl.style.transform = 'translateX(-50%) scale(0.9)';
-            }, duration);
-        }
-
-        // Show / hide loading overlay
-        function setLoading(show) {
-            loadingOverlay.style.visibility = show ? 'visible' : 'hidden';
-        }
-
-        // ---------- CORE: Send data to Telegram Bot via WebApp.sendData ----------
-        // This method is 100% reliable: Bot receives "web_app_data" event.
-        // Data structure must match starbot.py: { gift: "heart", price: 13 }
-        function purchaseGift(giftName, starPrice) {
-            // Validation
-            if (!giftName || typeof starPrice !== 'number') {
-                console.error("Invalid gift data");
-                showToast("❌ Error: invalid gift", 1500);
-                return;
-            }
-
-            // Prepare data exactly as bot expects (JSON)
-            const payload = {
-                gift: giftName,
-                price: starPrice
-            };
-            
-            // Show processing indicator
-            setLoading(true);
-            
-            // small delay to avoid UI freeze, but we immediately send data to Telegram
-            // According to Telegram Mini Apps docs, sendData must be called inside user interaction.
-            // Since this is triggered by button click -> safe.
-            try {
-                // Sending data to the bot. Bot will receive via @bot.message_handler(content_types=['web_app_data'])
-                tg.sendData(JSON.stringify(payload));
-                // After sendData, the mini app can close automatically or stay. 
-                // But we'll show success and close after a short time? Actually bot will send invoice, no need to close yet.
-                // But we give user feedback:
-                showToast(`✅ ${giftName.toUpperCase()} • ${starPrice}⭐ requested!`, 2000);
-                
-                // optional: after sending data, we can let the user stay, but bot will send payment invoice
-                // but sometimes the mini app might not close, we keep loading for a second
-                setTimeout(() => {
-                    setLoading(false);
-                }, 800);
-            } catch (err) {
-                console.error("sendData error:", err);
-                showToast("⚠️ Failed to connect. Try again", 1800);
-                setLoading(false);
-            }
-        }
-
-        // Attach click listeners to all buy buttons (better than inline onclick, but maintain compatibility)
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            const btn = card.querySelector('.buy-btn');
-            if (!btn) return;
-            
-            // Retrieve gift data from data attributes
-            const giftRaw = card.getAttribute('data-gift');
-            const priceRaw = card.getAttribute('data-price');
-            
-            if (!giftRaw || !priceRaw) {
-                console.warn("Missing data-gift or data-price on card", card);
-                return;
-            }
-            
-            const gift = giftRaw.trim();
-            const price = parseInt(priceRaw, 10);
-            
-            // Remove any existing listener to avoid duplicate, then attach fresh
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-            
-            newBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                // Haptic feedback if available (Telegram)
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.impactOccurred('light');
-                }
-                purchaseGift(gift, price);
-            });
-        });
-        
-        // Additional safety: if any button still uses old inline onclick? but we have replaced all. 
-        // For any legacy fallback (just in case)
-        window.buy = function(gift, price) {
-            console.warn("legacy buy called, but using modern event");
-            purchaseGift(gift, price);
-        };
-        
-        // Optional: Theme sync with Telegram
-        tg.onEvent('themeChanged', () => {
-            // optional: adapt body background to match Telegram theme
-            const bgColor = tg.themeParams.bg_color || '#030617';
-            document.body.style.backgroundColor = bgColor;
-        });
-        
-        // Initialize Telegram MainButton if needed? But invoice is sent by bot, not required.
-        // Also handle back button if needed
-        tg.onEvent('backButtonClicked', () => {
-            tg.close();
-        });
-        
-        // If user comes back after payment, we keep friendly
-        console.log("Musu Gift Store Ready — SendData fully integrated");
-        
-        // Check Telegram WebApp version compatibility
-        if (!tg.sendData) {
-            console.error("sendData not supported?");
-            showToast("⚠️ Update Telegram to latest version", 2000);
-        }
-    })();
+function buy(gift, price, name){
+    // Send data to bot - bot will send Stars invoice
+    tg.sendData(JSON.stringify({
+        gift: gift,
+        price: price,
+        name: name
+    }));
+    
+    // Optional: haptic feedback
+    if (tg.HapticFeedback) {
+        tg.HapticFeedback.notificationOccurred('success');
+    }
+}
 </script>
+
 </body>
 </html>
